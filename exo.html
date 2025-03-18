@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            border-radius: 10%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 200%;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <input type="text" name="i" id="inp1" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1"
+            autofocus>
+        <input type="text" name="i" id="inp2" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1">
+        <input type="text" name="i" id="inp3" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1">
+        <input type="text" name="i" id="inp4" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1">
+        <input type="text" name="i" id="inp5" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1">
+        <input type="text" name="i" id="inp6" oninput="this.value= this.value.replace(/[^0-9\t]/g,'')" maxlength="1">
+        <button type="submit">send</button>
+    </form>
+    <div></div>
+    <script>
+        // Sélectionner l'élément formulaire
+        const form = document.querySelector('form');
+        // Sélectionner tous les éléments input
+        const inputs = document.querySelectorAll('input');
+
+        // Boucler à travers chaque élément input
+        inputs.forEach((valeur, placevaleur) => {
+            // Ajouter un écouteur d'événement pour l'événement input
+            valeur.addEventListener('input', () => {
+                // Si la longueur de la valeur de l'input est égale à la longueur maximale
+                if (valeur.value.length === valeur.maxLength) {
+                    // Focaliser sur l'input suivant s'il existe
+                    if (placevaleur < inputs.length - 1) {
+                        inputs[placevaleur + 1].focus()
+                    }
+                }
+            })
+            // Ajouter un écouteur d'événement pour l'événement keydown
+            valeur.addEventListener('keydown', (e) => {
+                // Si la touche Backspace est pressée
+                if (e.key === 'Backspace') {
+                    // Focaliser sur l'input précédent si l'actuel est vide et ce n'est pas le premier input
+                    if (valeur.value === '' && placevaleur > 0) {
+                        inputs[placevaleur - 1].focus()
+                    }
+                }
+            })
+        })
+
+        // Ajouter un écouteur d'événement pour l'événement de soumission du formulaire
+        form.addEventListener('submit', (e) => {
+            // Empêcher la soumission par défaut du formulaire
+            e.preventDefault()
+            let values = ''
+
+            // Concaténer les valeurs de tous les éléments input
+            inputs.forEach(element => {
+                values += element.value
+            })
+            // Rediriger vers une nouvelle URL avec les valeurs concaténées en tant que paramètres de requête
+            const lien = 'http://127.0.0.1:5500/exo.html?'
+            window.location.href = lien + values
+        })
+
+    </script>
+</body>
+
+</html>
